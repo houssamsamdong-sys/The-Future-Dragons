@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Future Dragons</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .container {
+      text-align: center;
+      background: rgba(255,255,255,0.85);
+      padding: 40px;
+      border-radius: 25px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      animation: float 3s ease-in-out infinite;
+      max-width: 90%;
+      max-height: 90%;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+
+    h1 {
+      font-size: 2em;
+      color: #ff5722;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px #aaa;
+    }
+
+    .btn {
+      display: inline-block;
+      background: #ff9800;
+      color: white;
+      padding: 12px 25px;
+      margin: 10px;
+      border-radius: 15px;
+      text-decoration: none;
+      font-size: 1.2em;
+      transition: transform 0.2s, background 0.3s;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background: #e65100;
+      transform: scale(1.1);
+    }
+
+    form {
+      display: none;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    input, select {
+      padding: 10px;
+      border: 2px solid #ff9800;
+      border-radius: 10px;
+      outline: none;
+      font-size: 1em;
+    }
+
+    input:focus, select:focus {
+      border-color: #e65100;
+    }
+
+    /* Profile Pages */
+    #semesterPage, #gamesPage, #storiesPage, #settingsPage {
+      display: none;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .semester-btn {
+      background: #4caf50;
+      color: white;
+      padding: 15px 30px;
+      border-radius: 20px;
+      font-size: 1.3em;
+      cursor: pointer;
+      transition: transform 0.3s, background 0.3s;
+    }
+
+    .semester-btn:hover {
+      background: #2e7d32;
+      transform: scale(1.1);
+    }
+
+    /* Games & Stories Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .grid a {
+      background: #03a9f4;
+      color: white;
+      padding: 15px;
+      border-radius: 15px;
+      text-decoration: none;
+      transition: transform 0.3s, background 0.3s;
+      display: block;
+    }
+
+    .grid a:hover {
+      background: #0277bd;
+      transform: scale(1.1);
+    }
+
+    /* Profile Icon */
+    .profile-container {
+      position: absolute;
+      top: 15px;
+      right: 40px;
+      text-align: center;
+    }
+
+    .profile-icon {
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      border: 3px solid #ff9800;
+      background-size: cover;
+      background-position: center;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .profile-icon:hover {
+      transform: scale(1.1);
+      border-color: #e65100;
+    }
+
+    .profile-menu {
+      display: none;
+      position: absolute;
+      top: 70px;
+      right: 0;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      overflow: hidden;
+      z-index: 10;
+    }
+
+    .profile-menu button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-size: 1em;
+      text-align: left;
+    }
+
+    .profile-menu button:hover {
+      background: #ffecd2;
+    }
+
+    /* Dragon Fire Circles */
+    .circle {
+      position: absolute;
+      border-radius: 200%;
+      background: rgba(255, 87, 34, 0.4);
+      animation: rise 6s infinite ease-in-out;
+    }
+
+    @keyframes rise {
+      from { transform: translateY(100vh) scale(0.5); opacity: 0.6; }
+      to { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Home Page -->
+  <div class="container" id="homePage">
+    <h1>🐉 🇩🇿 Welcome to the Future Dragons 🇩🇿 🐉</h1>
+    <p>This website is designed for Algerian kids to practice their primary school program through fun games and stories!</p>
+    <button class="btn" onclick="showForm('loginForm')">Welcome dragon</button>
+    <button class="btn" onclick="showForm('registerForm')">New dragon</button>
+
+    <!-- Login Form -->
+    <form id="loginForm" onsubmit="event.preventDefault(); goToProfile();">
+      <input type="email" placeholder="Email" required>
+      <input type="password" placeholder="Password" required>
+      <button type="submit" class="btn">Login</button>
+    </form>
+
+    <!-- Register Form -->
+    <form id="registerForm" onsubmit="event.preventDefault(); goToProfile();">
+      <input type="text" placeholder="Full Name" required>
+      <input type="text" placeholder="Father's Name" required>
+      <input type="text" placeholder="School Name" required>
+      <input type="number" placeholder="Age (max 11)" min="6" max="11" required>
+      <input type="email" placeholder="Email" required>
+      <input type="password" placeholder="Password" required>
+      <select required>
+        <option value="">Select Level</option>
+        <option value="Level 1">Level 1</option>
+        <option value="Level 2">Level 2</option>
+        <option value="Level 3">Level 3</option>
+      </select>
+      <button type="submit" class="btn">Register</button>
+    </form>
+  </div>
+
+  <!-- Profile Page -->
+  <div class="container" id="semesterPage">
+    <div class="profile-container">
+      <div id="profileIcon" class="profile-icon" style="background-image:url('https://cdn-icons-png.flaticon.com/512/924/924915.png')" onclick="toggleProfileMenu()"></div>
+      <div class="profile-menu" id="profileMenu">
+        <button onclick="openSettings()">Profile Settings</button>
+        <button onclick="logout()">Logout</button>
+      </div>
+    </div>
+    <h1>📚 Choose a Semester 📚</h1>
+    <button class="semester-btn" onclick="showGames('Semester 1')">1st Semester</button>
+    <button class="semester-btn" onclick="showGames('Semester 2')">2nd Semester</button>
+    <button class="semester-btn" onclick="showGames('Semester 3')">3rd Semester</button>
+    <button class="semester-btn" onclick="showStories()">Night Stories</button>
+  </div>
+
+  <!-- Games Page -->
+  <div class="container" id="gamesPage">
+    <h1 id="gamesTitle">🎮 Games</h1>
+    <div class="grid" id="gamesGrid"></div>
+    <button class="btn" onclick="backToProfile()">⬅ Back</button>
+  </div>
+
+  <!-- Stories Page -->
+  <div class="container" id="storiesPage">
+    <h1>📖 Night Stories</h1>
+    <div class="grid" id="storiesGrid"></div>
+    <button class="btn" onclick="backToProfile()">⬅ Back</button>
+  </div>
+
+  <!-- Settings Page -->
+  <div class="container" id="settingsPage">
+    <h1>⚙️ Profile Settings</h1>
+    <form id="settingsForm" onsubmit="event.preventDefault(); saveSettings();" style="display:flex; flex-direction: column; gap: 12px;">
+      <label>
+        Upload Profile Picture:
+        <input type="file" id="newPic" accept="image/*">
+      </label>
+      <label>
+        Change Level:
+        <select id="newLevel" required>
+          <option value="">Select New Level</option>
+          <option value="Level 1">Level 1</option>
+          <option value="Level 2">Level 2</option>
+          <option value="Level 3">Level 3</option>
+        </select>
+      </label>
+      <label>
+        Enter Password to Confirm:
+        <input type="password" id="confirmPassword" placeholder="Password" required>
+      </label>
+      <button type="submit" class="btn">Save Changes</button>
+    </form>
+    <button class="btn" onclick="backToProfile()">⬅ Back</button>
+  </div>
+
+  <script>
+    function showForm(formId) {
+      document.getElementById("loginForm").style.display = "none";
+      document.getElementById("registerForm").style.display = "none";
+      document.getElementById(formId).style.display = "flex";
+    }
+
+    function goToProfile() {
+      document.getElementById("homePage").style.display = "none";
+      document.getElementById("semesterPage").style.display = "flex";
+    }
+
+    function showGames(semesterName) {
+      document.getElementById("semesterPage").style.display = "none";
+      document.getElementById("gamesPage").style.display = "flex";
+      document.getElementById("gamesTitle").innerText = semesterName + " - Games";
+      let grid = document.getElementById("gamesGrid");
+      grid.innerHTML = "";
+      for (let i = 1; i <= 10; i++) {
+        let link = document.createElement("a");
+        link.href = "https://www.google.com";
+        link.target = "_blank";
+        link.innerText = "Game " + i;
+        grid.appendChild(link);
+      }
+    }
+
+    function showStories() {
+      document.getElementById("semesterPage").style.display = "none";
+      document.getElementById("storiesPage").style.display = "flex";
+      let grid = document.getElementById("storiesGrid");
+      grid.innerHTML = "";
+      for (let i = 1; i <= 100; i++) {
+        let link = document.createElement("a");
+        link.href = "https://www.google.com";
+        link.target = "_blank";
+        link.innerText = "Story " + i;
+        grid.appendChild(link);
+      }
+    }
+
+    function backToProfile() {
+      document.getElementById("gamesPage").style.display = "none";
+      document.getElementById("storiesPage").style.display = "none";
+      document.getElementById("settingsPage").style.display = "none";
+      document.getElementById("semesterPage").style.display = "flex";
+    }
+
+    // Profile menu toggle
+    function toggleProfileMenu() {
+      let menu = document.getElementById("profileMenu");
+      menu.style.display = menu.style.display === "block" ? "none" : "block";
+    }
+
+    // Open settings page
+    function openSettings() {
+      document.getElementById("semesterPage").style.display = "none";
+      document.getElementById("settingsPage").style.display = "flex"; 
+      document.getElementById("profileMenu").style.display = "none";
+    }
+
+    // Save settings
+    function saveSettings() {
+      let level = document.getElementById("newLevel").value;
+      let password = document.getElementById("confirmPassword").value;
+      let file = document.getElementById("newPic").files[0];
+
+      if (!level || !password) {
+        alert("Please select a level and enter your password.");
+        return;
+      }
+
+      // Example password verification
+      let correctPassword = "123456"; // Replace with real password check
+      if (password !== correctPassword) {
+        alert("Incorrect password. Changes not saved.");
+        return;
+      }
+
+      if (file) {
+        let reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById("profileIcon").style.backgroundImage = `url('${e.target.result}')`;
+        }
+        reader.readAsDataURL(file);
+      }
+
+      alert("Profile updated! New level: " + level);
+      backToProfile();
+    }
+
+    function logout() {
+      alert("You have been logged out!");
+      location.reload();
+    }
+
+    // Floating circles
+    for (let i = 0; i < 15; i++) {
+      let circle = document.createElement("div");
+      circle.classList.add("circle");
+      let size = Math.random() * 50 + 20;
+      circle.style.width = size + "px";
+      circle.style.height = size + "px";
+      circle.style.left = Math.random() * window.innerWidth + "px";
+      circle.style.animationDuration = (Math.random() * 5 + 5) + "s";
+      document.body.appendChild(circle);
+    }
+  </script>
+</body>
+</html>
